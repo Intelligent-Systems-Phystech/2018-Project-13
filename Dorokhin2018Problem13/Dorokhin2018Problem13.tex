@@ -1,7 +1,6 @@
 \documentclass[12pt,twoside]{article}
-\usepackage{jmlda}
+\usepackage{jmlda, amssymb, amsmath}
 \begin{document}
-%\NOREVIEWERNOTES
 \title
 {Spherical CNN for QSAR prediction}
 \author
@@ -10,7 +9,7 @@
 {Scientific advisor:  Strijov~V.\,V.
 }
 \organization
-{$^1$MIPT, $^2$University of North Carolina}
+{$^1$Moscow Institute of Physics and Technology, $^2$University of North Carolina}
 \abstract
 {
     \textbf{Abstract:}
@@ -37,9 +36,25 @@
      Taco et. al. tested the CNN in various tasks, including prediction of atomization energies from molecular geometry. The model yielded excellent results and this makes applying it to QSAR prediction an interesting challenge. 
 \newline
     The main drawback of the suggested model is its complexity resulting in significant number of parameters (around 1M) and huge memory and time resources required. 
-    However, the resulting model is expcted to be a universal solution. It is compared with conventional CNN, RNN, graph CNN and Random Forest.
+    However, the resulting model is expcted to be a universal solution. It is compared with conventional CNN, RNN, graph CNN and Random Forest. \textcolor{red}{(The articles in the intro will soon be replaced)}
+\section{Problem statement}
+    Let $\mathbb{M}=\{\, m_i\mid i = \overline{1, n}\}$ be a set of molecules $m_i$, each described by 3D cartesian coordinates of all atoms it contains: $m_i=\{\,\mathbf{x}_j\in \mathbb{R}^3\mid j = \overline{1, k_i}\}$,
+    where $k_i$ is the number of atoms in the molecule $m_i$.
+    Every molecule $m_i \in \mathbb{M}$ has a certain property $y_i \in Y \subset \mathbb{R}$ associated with it, where $Y = \{\, y_1, y_2, ...\ y_n \}\ $ are molecular properties. 
+    Their nature is not of great importance: it may be solubility, toxicity, bioactivity e. g.
+\newline
+    Let us consider a set of parametric models $\mathfrak{F}$ derived from convolutional neural networks class:\newline $\mathfrak{F} = \{\,f_i\colon(\mathbf{w}, m)\to \hat{y})\mid i \in \mathfrak{I}, m \in \mathbf{M} \}\ $, 
+    where $\mathbf{w} \in W$  are parameters of a model and $\hat{y} \in \mathbb{R}$ is an estimated property.
+    The task is to predict the property $y_i$ of a molecule $m_i$ based on its spacial structure only. It is considered to be a regression problem assuming $y_i \in N(\overline{y}, \sigma_y)$. Denoting the merit function as 
+\begin{equation}
+\label{merit}
+    E(y, m, \mathbf{w}) = (y - f(m, \mathbf{w}))^2
+\end{equation}
+    the problem of training coefficients $\mathbf{w}$ could be represented by the following equation:
+\begin{equation}
+\label{argmin}
+    \hat{w} = \underset{w \in W}{\argmin} \sum_{(y, m) \in (Y, M)} E(y, m, \mathbf{w})
+\end{equation}
 \bibliographystyle{plain}
 \bibliography{Dorokhin2018Problem13}
-\begin{thebibliography}{6}
-\end{thebibliography}
 \end{document}
